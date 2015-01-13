@@ -7,13 +7,6 @@ DATABASE = './bdd/voitures.db'
 
 application = Flask(__name__)
 
-def stat(f):
-    def new_f(arg):
-        print("coucou")
-        result = f()
-        return result
-    return new_f
-
 @application.route('/api/v1.0/voitures', methods=['GET'])
 def get_voitures():
     print(request.args)
@@ -28,7 +21,6 @@ def get_voitures():
                 sql+= ' WHERE '
             sql += 'lower('+arg + ') = \'' + request.args.get(arg).lower() + '\''
             check = True
-    print(sql)
     voitures = query_db(sql)
     return jsonify({'voitures': voitures})
 
@@ -38,7 +30,7 @@ def get_voiture(voiture_id):
 
     voiture = query_db('select * from voitures where rowid=\''+voiture_id+'\'')
     print(voiture)
-    return jsonify({'voiture': voiture[0]})
+    return jsonify(voiture[0])
 
 def connect_db():
     return sqlite3.connect(DATABASE)
