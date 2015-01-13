@@ -16,6 +16,7 @@ def stat(f):
 
 @application.route('/api/v1.0/voitures', methods=['GET'])
 def get_voitures():
+    print(request.args)
     sql = 'SELECT * FROM voitures'
     check = False
     args = ['annee', 'marque', 'modele', 'cnit', 'mine', 'carb', 'cv', 'puiss', 'bv', 'urb', 'exurb', 'mixte', 'co2']
