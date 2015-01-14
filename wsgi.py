@@ -9,19 +9,25 @@ application = Flask(__name__)
 
 @application.route('/api/v1.0/voitures', methods=['GET'])
 def get_voitures():
-    print(request.args)
     sql = 'SELECT * FROM voitures'
     check = False
     args = ['annee', 'marque', 'modele', 'cnit', 'mine', 'carb', 'cv', 'puiss', 'bv', 'urb', 'exurb', 'mixte', 'co2']
-    for arg in args:
-        if request.args.get(arg) != None:
-            if check == True:
-                sql += ' AND '
-            else:
-                sql+= ' WHERE '
-            sql += 'lower('+arg + ') = \'' + request.args.get(arg).lower() + '\''
-            check = True
+    #print(request.args.items())
+    for key, val in request.args.items():
+        
+        if key not in args:
+            abort(400)
+        else:
+            if request.args.get(key) != None:
+                if check == True:
+                    sql += ' AND '
+                else:
+                    sql+= ' WHERE '
+                sql += 'lower('+key + ') = \'' + request.args.get(key).lower() + '\''
+                check = True
+        
     voitures = query_db(sql)
+    #print(sql)
     return jsonify({'voitures': voitures})
 
 
