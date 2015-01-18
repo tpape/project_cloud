@@ -54,13 +54,18 @@ def get_top(key):
     if key == None:
         values = {}
         result = []
-        for val in ARGS :
-            values[val] = collection.find({'args.{0}'.format(val):{'$exists' : 'True'}}).count()
-        for val in sorted(values, key=values.get, reverse=True):
-            result.append({"param" : val, "value" : values[val]})
+        for key in ARGS :
+            values[key] = collection.find({'args.{0}'.format(key):{'$exists' : 'True'}}).count()
+        for key in sorted(values, key=values.get, reverse=True):
+            result.append({"key" : key, "value" : values[key]})
         return jsonify({"values"  : result})
     else :
-        return("TODO")
+        values = collection.distinct("args.{0}".format(key))
+        result = []
+        for value in values : 
+            result.append({"value" : value, "count" : collection.find({"args.{0}".format(key) : value}).count()})
+        return jsonify({"values" : sorted(result, key=lambda obj: obj["count"], reverse=True)})
+
 
 def connect_db():
     return sqlite3.connect(DATABASE)
