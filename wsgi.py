@@ -53,12 +53,12 @@ def get_voiture(voiture_id):
 def get_top(key):
     if key == None:
         values = {}
-        result = ""
+        result = []
         for val in ARGS :
             values[val] = collection.find({'args.{0}'.format(val):{'$exists' : 'True'}}).count()
         for val in sorted(values, key=values.get, reverse=True):
-            result = result + "<br>" + val + " " + str(values[val])
-        return result
+            result.append({"param" : val, "value" : values[val]})
+        return jsonify({"values"  : result})
     else :
         return("TODO")
 
