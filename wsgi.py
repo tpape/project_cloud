@@ -1,9 +1,9 @@
 #!/usr/local/bin/python3
 
-from flask import Flask, jsonify, abort, request, g
-from pymongo import MongoClient
 import sqlite3
 import time
+from flask import Flask, jsonify, abort, request, g, render_template
+from pymongo import MongoClient
 
 DATABASE = './bdd/voitures.db'
 ARGS = ['annee', 'marque', 'modele', 'cnit', 'mine', 'carb', 'cv', 'puiss', 'bv', 'urb', 'exurb', 'mixte', 'co2']
@@ -51,6 +51,7 @@ def get_voiture(voiture_id):
 @application.route('/api/v1.0/stats/', defaults={'key':None})
 @application.route('/api/v1.0/stats/<key>/')
 def get_top(key):
+    
     if key == None:
         values = {}
         result = []
@@ -59,6 +60,7 @@ def get_top(key):
         for key in sorted(values, key=values.get, reverse=True):
             result.append({"key" : key, "value" : values[key]})
         return jsonify({"values"  : result})
+
     else :
         values = collection.distinct("args.{0}".format(key))
         result = []
@@ -88,6 +90,10 @@ def query_db(query, args=(), one=False):
     rv = [dict((cur.description[idx][0], value)
     for idx, value in enumerate(row)) for row in cur.fetchall()]
     return (rv[0] if rv else None) if one else rv
+
+@application.route('/voitures_stats', methods=['GET'])
+def get_voitures_stats_html():
+    return render_template('voitures_stats.html')
 
 if __name__ == '__main__':
     application.run(debug=True)
