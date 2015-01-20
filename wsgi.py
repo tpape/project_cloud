@@ -36,7 +36,7 @@ def get_voitures():
                     sql += ' AND '
                 else:
                     sql+= ' WHERE '
-                sql += 'lower('+key + ') = \'' + request.args.get(key).lower() + '\''
+                sql += 'lower('+key + ') LIKE \'%' + request.args.get(key).lower() + '%\''
                 check = True
     voitures = query_db(sql)
     return jsonify({'voitures': voitures})
@@ -94,6 +94,10 @@ def query_db(query, args=(), one=False):
 @application.route('/voitures_stats', methods=['GET'])
 def get_voitures_stats_html():
     return render_template('voitures_stats.html')
+
+@application.route('/voitures_recherche', methods=['GET'])
+def get_voitures_recherche_html():
+    return render_template('voitures_recherche.html')
 
 if __name__ == '__main__':
     application.run(debug=True)
