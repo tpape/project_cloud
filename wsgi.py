@@ -17,11 +17,11 @@ collection = db['requests']
 @application.before_request
 def log_access(): 
     args = dict(request.args)
-    if request.view_args != None:
+    if args :
         args.update(request.view_args)
-    date = time.time()
-    request_stat = {"args":args, "ts":date}
-    collection.insert(request_stat)
+        date = time.time()
+        request_stat = {"args":args, "ts":date}
+        collection.insert(request_stat)
 
 @application.route('/api/v1.0/voitures', methods=['GET'])
 def get_voitures():
