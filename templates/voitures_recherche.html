@@ -17,9 +17,9 @@
 				font-family: "Trebuchet MS";
 				float: left;
 				width: 7.2%;
-				height: 40px;
 				border: 1px solid black;
 				margin: 2px;
+				padding-bottom: 4px;
 			}
 
 			li input {
@@ -96,7 +96,6 @@
 			$.getJSON(path, function( data ){
 				$.each( data.voitures, function(index, object) {
 					for(var key in object) {
-						console.log(object);
     					$('#container').append('<span class="element">' + key + " : "+object[key].toLowerCase() + '</span>');
 					}
 				});
