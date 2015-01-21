@@ -16,9 +16,8 @@ collection = db['requests']
 
 @application.before_request
 def log_access(): 
-    args = dict(request.args)
+    args = dict((k, v[0].lower()) for k,v in dict(request.args).items())
     if args :
-        args.update(request.view_args)
         date = time.time()
         request_stat = {"args":args, "ts":date}
         collection.insert(request_stat)
