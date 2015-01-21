@@ -95,21 +95,24 @@
 			path = path.slice(0,-1);
 			$.getJSON(path, function( data ){
 				$.each( data.voitures, function(index, object) {
-					//console.log(lengthObj);
 					for(var key in object) {
 						console.log(object);
     					$('#container').append('<span class="element">' + key + " : "+object[key].toLowerCase() + '</span>');
 					}
 				});
-			var lengthObj = Object.keys(data.voitures[0]).length;
-			var $span = $("#container span");
-			for (var i = 0; i < $span.length; i += lengthObj) {
-			    var $div = $("<div/>", {
-			        class: 'object'
-			    });
-			    $span.slice(i, i + lengthObj).wrapAll($div);
-			}
-
+				try {
+					var lengthObj = Object.keys(data.voitures[0]).length;
+					var $span = $("#container span");
+					for (var i = 0; i < $span.length; i += lengthObj) {
+					    var $div = $("<div/>", {
+					        class: 'object'
+					    });
+					    $span.slice(i, i + lengthObj).wrapAll($div);
+					}
+				}
+				catch(err) {
+					$('#container').append('<span>Aucun résultat</span>');
+				}
 			});
 			//Avoid the page refresh
 			return false;
