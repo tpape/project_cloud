@@ -38,6 +38,7 @@ def get_voitures():
                     sql+= ' WHERE '
                 sql += 'lower('+key + ') LIKE \'%' + request.args.get(key).lower() + '%\''
                 check = True
+    sql += '\nLIMIT 100'
     voitures = query_db(sql)
     return jsonify({'voitures': voitures})
 
