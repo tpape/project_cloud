@@ -91,11 +91,11 @@ def query_db(query, args=(), one=False):
     for idx, value in enumerate(row)) for row in cur.fetchall()]
     return (rv[0] if rv else None) if one else rv
 
-@application.route('/voitures_stats', methods=['GET'])
+@application.route('/voitures/stats/', methods=['GET'])
 def get_voitures_stats_html():
     return render_template('voitures_stats.html')
 
-@application.route('/voitures_recherche', methods=['GET'])
+@application.route('/voitures/recherche/', methods=['GET'])
 def get_voitures_recherche_html():
     return render_template('voitures_recherche.html')
 

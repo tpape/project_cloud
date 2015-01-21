@@ -79,13 +79,13 @@
 	    animateScale : false
 	};
 
-	$.getJSON( "api/v1.0/stats/", function( data ) {
+	$.getJSON( "/api/v1.0/stats/", function( data ) {
 		//ALL
 		$.each( data.values, function( id, val ) {
 			var li = $("<li id='" + val.key + "'><p class='key'>" + val.key + "</p><p class='value'>" +val.value + "</p></li>");
 			//CLIC
 			li.click(function(e) {
-				$.getJSON( "api/v1.0/stats/"+$(this).attr("id"), function( data ){
+				$.getJSON( "/api/v1.0/stats/"+$(this).attr("id"), function( data ){
 					var graph_data = [];
 					$.each( data.values, function(index, object) {
 						colors.push("#" + Math.random().toString(16).slice(2, 8));

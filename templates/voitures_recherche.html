@@ -76,7 +76,7 @@
 	<script type="text/javascript">
 		labels = [];
 		var $fields = $('#fields');	
-		$.getJSON( "api/v1.0/stats/", function( data ) {
+		$.getJSON( "/api/v1.0/stats/", function( data ) {
 			$fields.html('');
 			$.each(data.values, function(key, val) {
 				$fields.append('<li><label for="'+val.key+'">'+val.key+'</label> <input type="text" name="'+val.key+'"></li>');
@@ -85,7 +85,7 @@
 		});
 		$( "form" ).submit(function( event ) {
 			$('#container').empty();
-			var path = "api/v1.0/voitures?";
+			var path = "/api/v1.0/voitures?";
 			$.each(labels, function(index1, name) {
 				var contenu = $('input[name="'+name+'"]').val();
 				if(contenu != "") {
