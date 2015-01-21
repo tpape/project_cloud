@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Stats</title>
+		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	</head>
+	<body>
+		<form name="myForm" method="get">
+			<div id = 'fields'></div>
+			<!--<select id="myselect" name="typeField">
+			</select>
+			<input type="text" name="testField">-->
+			<input type="submit" value="Submit">
+		</form>
+		<div id ='container'></div>
+	</body>
+	<script type="text/javascript">
+		labels = [];
+		var $fields = $('#fields');	
+		$.getJSON( "api/v1.0/stats/", function( data ) {
+			$fields.html('');
+			$.each(data.values, function(key, val) {
+				$fields.append('<div><label for="'+val.key+'">'+val.key+' : </label> <input type="text" name="'+val.key+'"></div>');
+				labels.push(val.key);
+			});
+		});
+		$( "form" ).submit(function( event ) {
+			$('#container').empty();
+			var path = "api/v1.0/voitures?";
+			$.each(labels, function(index1, name) {
+				var contenu = $('input[name="'+name+'"]').val();
+				if(contenu != "") {
+					path+=name+'='+contenu+'&';
+				}
+			});
+			path = path.slice(0,-1);
+			$.getJSON(path, function( data ){
+				$.each( data.voitures, function(index, object) {
+					for(var key in object) {
+    					$('#container').append('<div class="element">' + object[key].toLowerCase() + '</div>');
+					}
+				});
+			});
+			//Avoid the page refresh
+			return false;
+		});
+	</script>
+</html>
